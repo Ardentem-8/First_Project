@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+{% block title %}歌手列表{% endblock %}
+{% block content %}
+
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <h1 style="margin-bottom:10px;">歌手列表</h1>
+  <ul style="width:100%;max-width:600px;">
+    {% for singer in singers %}
+      <li style="display:flex;align-items:center;gap:18px;background:#fff;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,0.06);margin-bottom:18px;padding:14px 18px;">
+        {% if singer.image %}<img src="{{ singer.image }}" width="60" height="60" style="border-radius:8px;">{% endif %}
+        <div style="flex:1;">
+          <a href="{% url 'singer_detail' singer.id %}" style="font-size:18px;font-weight:500;color:#222;">{{ singer.name }}</a>
+        </div>
+      </li>
+    {% empty %}
+      <li style="text-align:center;">暂无歌手</li>
+    {% endfor %}
+  </ul>
+  <div style="margin-top:10px;">
+    {% if singers.has_previous %}
+      <a href="?page=1">首页</a>
+      <a href="?page={{ singers.previous_page_number }}">上一页</a>
+    {% endif %}
+    <span>第{{ singers.number }}页/共{{ singers.paginator.num_pages }}页</span>
+    {% if singers.has_next %}
+      <a href="?page={{ singers.next_page_number }}">下一页</a>
+      <a href="?page={{ singers.paginator.num_pages }}">尾页</a>
+    {% endif %}
+    <form method="get" style="display:inline;margin-left:10px;">
+      <input type="number" name="page" min="1" max="{{ singers.paginator.num_pages }}" value="{{ singers.number }}" style="width:60px;">
+      <button type="submit">跳转</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

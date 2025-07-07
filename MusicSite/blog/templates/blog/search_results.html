@@ -1,0 +1,51 @@
+{% extends 'blog/base.html' %}
+{% block title %}搜索结果{% endblock %}
+{% block content %}
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <h1 style="margin-bottom:10px;">搜索结果</h1>
+  <p style="color:#666;margin-bottom:24px;">共 <b>{{ count }}</b> 条结果
+  <ul style="width:100%;max-width:600px;">
+    {% if search_type == 'song' %}
+      {% for song in results %}
+        <li style="display:flex;align-items:center;gap:18px;background:#fff;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,0.06);margin-bottom:18px;padding:14px 18px;">
+          {% if song.image %}<img src="{{ song.image }}" width="60" height="60" style="border-radius:8px;">{% endif %}
+          <div style="flex:1;">
+            <a href="{% url 'song_detail' song.id %}" style="font-size:18px;font-weight:500;color:#222;">{{ song.name }}</a>
+            <span style="color:#888;font-size:15px;"> - {{ song.singer.name }}</span>
+          </div>
+        </li>
+      {% empty %}
+        <li style="text-align:center;">暂无歌曲</li>
+      {% endfor %}
+    {% else %}
+      {% for singer in results %}
+        <li style="display:flex;align-items:center;gap:18px;background:#fff;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,0.06);margin-bottom:18px;padding:14px 18px;">
+          {% if singer.image %}<img src="{{ singer.image }}" width="60" height="60" style="border-radius:8px;">{% endif %}
+          <div style="flex:1;">
+            <a href="{% url 'singer_detail' singer.id %}" style="font-size:18px;font-weight:500;color:#222;">{{ singer.name }}</a>
+          </div>
+        </li>
+      {% empty %}
+        <li style="text-align:center;">暂无歌手</li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+  <div style="margin-top:10px;">
+    {% if results.has_previous %}
+      <a href="?q={{ keyword }}&type={{ search_type }}&page=1">首页</a>
+      <a href="?q={{ keyword }}&type={{ search_type }}&page={{ results.previous_page_number }}">上一页</a>
+    {% endif %}
+    <span>第{{ results.number }}页/共{{ results.paginator.num_pages }}页</span>
+    {% if results.has_next %}
+      <a href="?q={{ keyword }}&type={{ search_type }}&page={{ results.next_page_number }}">下一页</a>
+      <a href="?q={{ keyword }}&type={{ search_type }}&page={{ results.paginator.num_pages }}">尾页</a>
+    {% endif %}
+    <form method="get" style="display:inline;margin-left:10px;">
+      <input type="hidden" name="q" value="{{ keyword }}">
+      <input type="hidden" name="type" value="{{ search_type }}">
+      <input type="number" name="page" min="1" max="{{ results.paginator.num_pages }}" value="{{ results.number }}" style="width:60px;">
+      <button type="submit">跳转</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

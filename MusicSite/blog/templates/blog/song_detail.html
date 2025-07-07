@@ -1,0 +1,30 @@
+{% extends 'blog/base.html' %}
+{% block title %}歌曲详情{% endblock %}
+{% block content %}
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <h1 style="margin-bottom:10px;">{{ song.name }}</h1>
+  {% if song.image %}<img src="{{ song.image }}" width="180" height="180" style="border-radius:16px;margin-bottom:18px;" alt="该图片无法显示">{% endif %}
+  <p style="margin-bottom:8px;">歌手：<a href="{% url 'singer_detail' song.singer.id %}" style="color:#007bff;">{{ song.singer.name }}</a></p>
+  <p style="margin-bottom:8px;">原始网站：<a href="{{ song.url }}" target="_blank">点击跳转</a></p>
+  <h3 style="margin-bottom:10px;align-items:center">歌词</h3>
+  <pre style="width:100%;max-width:600px;text-align:center;margin:0 auto;">{{ song.lyric }}</pre>
+  <hr style="width:100%;max-width:600px;margin:24px 0">
+  <h3 style="margin-bottom:10px;">评论</h3>
+  <form method="post" style="width:100%;max-width:600px;margin-bottom:18px;">
+    {% csrf_token %}
+    <textarea name="content" rows="3" cols="50" maxlength="200" required style="width:100%;"></textarea>
+    <button type="submit">提交评论</button>
+  </form>
+  <ul style="width:100%;max-width:600px;">
+    {% for comment in comments %}
+      <li style="background:#fff;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,0.06);margin-bottom:14px;padding:12px 16px;">
+        {{ comment.comment_content }}<br>
+        <small style="color:#888;">{{ comment.created_at|date:"Y-m-d H:i:s" }}</small>
+        <form method="post" action="{% url 'delete_comment' comment.id %}" style="display:inline;float:right;">{% csrf_token %}<button type="submit">删除</button></form>
+      </li>
+    {% empty %}
+      <li style="text-align:center;">暂无评论</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

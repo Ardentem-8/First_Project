@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block title %}搜索{% endblock %}
+{% block content %}
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <br>
+  <br>
+  <br>
+  <h1 style="margin-bottom:24px;">搜索</h1>
+  <form method="get" action="{% url 'search_results' %}" style="display:flex;gap:16px;align-items:center;">
+    <br>
+    <br>
+    <br>
+    <input type="text" name="q" maxlength="20" required placeholder="请输入关键词">
+    <label><input type="radio" name="type" value="song" checked>歌曲</label>
+    <label><input type="radio" name="type" value="singer">歌手</label>
+    <button type="submit">搜索</button>
+  </form>
+</div>
+{% endblock %}

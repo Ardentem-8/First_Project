@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+{% block title %}歌手详情{% endblock %}
+{% block content %}
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <h1 style="margin-bottom:10px;">{{ singer.name }}</h1>
+  {% if singer.image %}<img src="{{ singer.image }}" width="180" height="180" style="border-radius:16px;margin-bottom:18px;" alt="该图片无法显示">{% endif %}
+  <p style="color:#666;margin-bottom:8px;">简介：{{ singer.intro }}</p>
+  <p style="margin-bottom:24px;">原始网站：<a href="{{ singer.url }}" target="_blank">点击跳转</a></p>
+  <h3 style="margin-bottom:16px;">该歌手的歌曲</h3>
+  <ul style="width:100%;max-width:600px;">
+    {% for song in songs %}
+      <li style="display:flex;align-items:center;gap:18px;background:#fff;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,0.06);margin-bottom:18px;padding:14px 18px;">
+        {% if song.image %}<img src="{{ song.image }}" width="60" height="60" style="border-radius:8px;">{% endif %}
+        <div style="flex:1;">
+          <a href="{% url 'song_detail' song.id %}" style="font-size:18px;font-weight:500;color:#222;">{{ song.name }}</a>
+        </div>
+      </li>
+    {% empty %}
+      <li style="text-align:center;">暂无歌曲</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

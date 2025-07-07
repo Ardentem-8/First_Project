@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}音乐系统{% endblock %}</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background: #f7f8fa; }
+        nav { 
+            margin-bottom: 30px; 
+            background: #fff; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+            padding: 16px 24px; 
+            display: flex; 
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 6px 14px;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+        }
+        nav a:hover {
+            background:rgb(107, 0, 179);
+            color: #fff;
+        }
+        nav a.nav-title {
+            margin-right: auto;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        nav a.nav-title:hover {
+            background: none !important;
+            color: #333 !important;
+        }
+        h1 { color: #222; margin-bottom: 20px; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 14px; background: #fff; border-radius: 6px; padding: 12px 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+        img { vertical-align: middle; border-radius: 4px; }
+        form { margin: 0; }
+        button { background:rgb(162, 0, 255); color: #fff; border: none; border-radius: 4px; padding: 6px 16px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background:rgb(107, 0, 179); }
+        textarea, input[type="text"], input[type="number"] {
+            border: 1px solid #ccc; border-radius: 4px; padding: 6px; font-size: 15px;
+        }
+        pre { background: #f4f4f4; border-radius: 4px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <!-- nav 是页面导航栏，包含主要页面的跳转入口 -->
+    <nav>
+        <a class="nav-title">MusicSite</a>
+        <div style="display:flex;gap:24px;justify-content:center;flex:1;">
+            <a class="navi" href="{% url 'song_list' %}">歌曲列表</a>
+            <a class="navi" href="{% url 'singer_list' %}">歌手列表</a>
+            <a class="navi" href="{% url 'search' %}">搜索</a>
+        </div>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
